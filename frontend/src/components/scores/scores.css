@@ -1,0 +1,13 @@
+ul {
+  list-style: none;
+  padding: 0;
+  width: 50%;
+  margin: auto;
+  color: ;
+}
+
+li {
+  font-size: 1.2;
+  margin: auto;
+  color: green;
+}
