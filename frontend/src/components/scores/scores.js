@@ -22,7 +22,7 @@ class Scores extends Component {
         <h1>Scores</h1>
         <ul>
           {this.state.scores.map(score => (
-          <li key={score.id}><h5>{score.time}, {score.name}, {score.score}</h5></li>
+          <li key={score.id}><h5>{score.time}, {score.level}, {score.score}</h5></li>
         ))}
         </ul>
       </div>
