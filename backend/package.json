@@ -14,7 +14,10 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "is-integer": "^1.0.7",
+    "isnumeric": "^0.3.3",
     "jade": "~1.11.0",
+    "js-string-escape": "^1.0.1",
     "morgan": "~1.9.1",
     "nodemon": "^1.19.1",
     "sqlite3": "^4.0.9"
