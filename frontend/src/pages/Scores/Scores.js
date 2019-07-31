@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './scores.css';
+import './Scores.css';
 
 class Scores extends Component {
   constructor() {
