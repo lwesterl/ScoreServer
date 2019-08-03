@@ -25,7 +25,6 @@ router.get('/', function(req, res, next) {
   *   Get specific user with name as search key
   *   @return user as json or empty object if not found
   */
-
 router.get('/user/:name', function(req, res, next) {
   var name = jsStringEscape(req.params.name);
    const query = `SELECT * from Users WHERE name="${name}";`;
