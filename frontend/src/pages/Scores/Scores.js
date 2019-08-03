@@ -7,6 +7,8 @@ import './Scores.css';
 /**
   *   @class Scores
   *   Implements score visualization using Graph
+  *   Note: this class is used for displaying user specific scores. To show
+  *   the score main page, use ScoresHome class instead
   */
 class Scores extends Component {
 
@@ -37,7 +39,6 @@ getUser() {
 
   componentDidMount() {
     this._isMounted = true;
-    /** TODO: Scores should be returned newer last */
     this.updateScores();
     // automatically refresh scores
     this.updateInterval = setInterval(() => {
@@ -53,8 +54,10 @@ getUser() {
     fetch('/api/scores')
     .then(res => res.json())
     .then(scores => this.setState({scores}, () => {
-      console.log('Scores fetched: ', scores);
-      this.setState( {scoresReady : true });
+      if (this._isMounted) {
+        console.log('Scores fetched: ', scores);
+        this.setState( {scoresReady : true});
+      }
     }));
   }
 
@@ -64,7 +67,7 @@ getUser() {
     const MinScoresPlotted = 5;
 
     if (this.state.needsRedirect) {
-      return <Redirect to='/' />
+      return <Redirect to='/scores' />
     } else {
       var plottable_scores = [];
 
@@ -89,7 +92,7 @@ getUser() {
           <div>
             <h1>Scores</h1>
             <p>Not enough scores to plot history
-            <br/> Play more first!</p>
+            <br/>Play more first!</p>
           </div>
         );
       }

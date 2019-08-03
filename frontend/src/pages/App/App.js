@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import './App.css';
 import Home from '../Home/Home';
+import ScoresHome from '../ScoresHome/ScoresHome';
 import Scores from '../Scores/Scores';
 import About from '../About/About';
 
@@ -22,9 +23,10 @@ function App() {
         </ul>
         <hr/>
 
-        <Route exact path='/' component={Home}/>
-        <Route path='/Scores/:name' component={Scores} />
-        <Route path='/About' component={About} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/Scores' component={ScoresHome} />
+        <Route exact path='/Scores/:name' component={Scores} />
+        <Route exact path='/About' component={About} />
       </div>
     </Router>
   );
