@@ -23,7 +23,7 @@ function App() {
         <hr/>
 
         <Route exact path='/' component={Home}/>
-        <Route path='/Scores' component={Scores} />
+        <Route path='/Scores/:name' component={Scores} />
         <Route path='/About' component={About} />
       </div>
     </Router>
