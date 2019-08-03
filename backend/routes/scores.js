@@ -25,6 +25,7 @@ router.get('/', function(req, res, next) {
 /**
   *   Get all scores for specific user
   *   Note: provide user name and level name as req parameters: /specific_scores?name=some_name&level=some_level
+  *   Pass 'get_all_levels' as level_name to return all user specific scores
   *   @return scores in json format ordered by time, older first
   */
   router.get('/specific_scores', function(req, res, next) {
@@ -32,6 +33,9 @@ router.get('/', function(req, res, next) {
     var level_name = jsStringEscape(req.query.level);
     console.log(user_name, level_name)
     scores_query = `SELECT * FROM Scores WHERE level="${level_name}" AND userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
+    if (level_name === 'get_all_levels') {
+      scores_query = `SELECT * FROM Scores WHERE userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
+    }
     db.select(scores_query, (scores) => {
       res.json(scores);
     });
