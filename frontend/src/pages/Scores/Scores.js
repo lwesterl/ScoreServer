@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Graph from '../../components/Graph';
+import BarChart from '../../components/BarChart';
 import Waiting from '../../components/Waiting';
 import './Scores.css';
 
@@ -102,6 +103,7 @@ getUser() {
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
+            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' />
             <Graph data={plottable_scores}  domain={{ 'x': [1, plottable_scores.length], 'y' : [0, 300]}} title='History'/>
           </div>
         );
