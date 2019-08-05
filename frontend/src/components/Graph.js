@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryGroup, VictoryLine } from 'victory';
+import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory';
 
 /**
   *   @class Graph
@@ -10,23 +10,23 @@ import { VictoryGroup, VictoryLine } from 'victory';
   *   title: showed as graph title
   */
 class Graph extends Component {
-  
+
   render() {
     return (
       <div>
         <h3>{this.props.title}</h3>
-        <VictoryGroup>
+        <VictoryGroup data={this.props.data}>
           <VictoryLine
-            data={this.props.data}
             domain={this.props.domain}
 
             animate={{
               duration: 5000,
               onLoad: { duration: 1000 }}}
             />
+            <VictoryScatter size={4} symbol="diamond"/>
         </VictoryGroup>
       </div>
-    )
+    );
   }
 }
 
