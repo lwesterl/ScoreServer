@@ -1,4 +1,4 @@
--- Create database tables
+-- Create database tables, sqlite3 syntax
 -- Author: Lauri Westerholm
 
 -- Table for storing users
@@ -13,6 +13,19 @@ CREATE TABLE IF NOT EXISTS Scores(
     score REAL NOT NULL,
     time NUMERIC NOT NULL,
     completed INTEGER CHECK (completed IN(0, 1)) DEFAULT 0,
-    level TEXT NOT NULL,
-    userID INTEGER REFERENCES Users(id)
+    level TEXT REFERENCES Levels(name),
+    userID INTEGER REFERENCES Users(id),
+    gameMode INTEGER REFERENCES GameModes(id)
+);
+
+-- Table for storing levels
+CREATE TABLE IF NOT EXISTS Levels(
+  name TEXT PRIMARY KEY NOT NULL,
+  sortKey INTEGER NOT NULL
+);
+
+-- Table for storing game modes
+CREATE TABLE IF NOT EXISTS GameModes(
+  id INTEGER PRIMARY KEY NOT NULL,
+  description TEXT
 );
