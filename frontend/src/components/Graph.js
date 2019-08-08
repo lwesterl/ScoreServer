@@ -20,7 +20,7 @@ class Graph extends Component {
             domain={this.props.domain}
 
             animate={{
-              duration: 5000,
+              duration: 1000,
               onLoad: { duration: 1000 }}}
             />
             <VictoryScatter size={4} symbol="diamond"/>
