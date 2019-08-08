@@ -4,6 +4,7 @@ import NavBar from '../../components/NavBar';
 import Graph from '../../components/Graph';
 import BarChart from '../../components/BarChart';
 import Waiting from '../../components/Waiting';
+import CustomToggleButtons from '../../components/CustomToggleButtons';
 import './Scores.css';
 
 /**
@@ -27,14 +28,19 @@ class Scores extends Component {
       all_scores : [],
       scores : [],
       levels : [],
+      gameModes : [],
+      plottable_scores : [],
       level : '',
       needsRedirect : false,
       scoresReady : false,
       allScoresReady : false,
-      levelsReady : false
+      levelsReady : false,
+      gameModesReady : false
     }
     this.MaxPlotLen = 100;
     this.MinScoresPlotted = 1;
+    this.currentGameMode = [];
+    this.GraphInitialized = false;
   }
 
   /**
@@ -43,6 +49,7 @@ class Scores extends Component {
   componentWillMount() {
     this.getUser();
     this.getLevels();
+    this.getGameModes();
   }
 
   /**
@@ -100,6 +107,28 @@ class Scores extends Component {
       });
     }
 
+    /**
+      *   Get all GameModes for adjusting the Graph
+      *   After GameModes are fetched, updates currentGameMode
+      *   Note: this should be only called when component is starting to mount
+      */
+    getGameModes() {
+      fetch('/api/game_modes')
+      .then(res => res.json())
+      .then(gameModes => {
+        if (this._isMounted) {
+          let parsed_modes = []
+          gameModes.forEach( (mode) => {
+            parsed_modes.push({ 'value' : mode.id, 'name' : mode.description });}
+          );
+          this.setState( {gameModes : parsed_modes} );
+          this.setState( {gameModesReady : true} );
+          if ((this.state.gameModes.length) && (!this.GraphInitialized)) {
+            this.currentGameMode = [this.state.gameModes[0].value];
+          }
+        }
+      });
+    }
 
   /**
     *   Get all level specific scores and update state on level
@@ -109,11 +138,13 @@ class Scores extends Component {
     if (this._isMounted) this.setState({level : level});
     fetch(`/api/scores/specific_scores?name=${this.props.match.params.name}&level=${level}`)
     .then(res => res.json())
-    .then(scores => this.setState( {scores: scores}, () => {
+    .then(scores => {
       if (this._isMounted) {
+        this.setState( {scores: scores} );
         console.log('Scores fetched: ', scores);
+        this.getPlottableScores(this.currentGameMode);
       }
-    }));
+    });
   }
 
   /**
@@ -125,9 +156,12 @@ class Scores extends Component {
     if (this._isMounted) {
       fetch(`/api/scores/specific_scores?name=${this.props.match.params.name}&level=get_all_levels`)
       .then(res => res.json())
-      .then(all_scores => this.setState( {all_scores : all_scores}, () => {
-        if (this._isMounted) this.setState( {allScoresReady : true});
-      }));
+      .then(all_scores => {
+        if (this._isMounted) {
+          this.setState( {all_scores : all_scores} );
+          this.setState( {allScoresReady : true} );
+        }
+      });
     }
   }
 
@@ -139,12 +173,19 @@ class Scores extends Component {
     if (this.state.levelsReady) {
       fetch(`/api/scores/specific_scores?name=${this.props.match.params.name}&level=${this.state.level}`)
       .then(res => res.json())
-      .then(scores => this.setState({scores: scores}, () => {
+      .then(scores => {
         if (this._isMounted) {
+          this.setState( {scores: scores} );
           console.log('Scores fetched: ', scores);
           this.setState( {scoresReady : true});
+
+          // show the first initialGameMode scores in Graph, initialGameMode is set by getGameModes
+          if (!this.GraphInitialized) {
+            this.getPlottableScores(this.currentGameMode);
+            this.GraphInitialized = true;
+          }
         }
-      }));
+      });
     }
   }
 
@@ -152,15 +193,19 @@ class Scores extends Component {
     *   Convert scores to plottable format
     *   return: scores in the format where those can be fed to Graph
     */
-  getPlottableScores() {
+  getPlottableScores(gameModes) {
     var plottable_scores = [];
     for (var i = 0; i < this.state.scores.length; i++) {
-        plottable_scores.push({'x' : i + 1, 'y' : this.state.scores[i].score});
+        if (gameModes.includes(this.state.scores[i].gameMode)) {
+          plottable_scores.push({'x' : i + 1, 'y' : this.state.scores[i].score});
+        }
     }
     if (plottable_scores.length > this.MaxPlotLen) {
       plottable_scores = plottable_scores.slice(-this.MaxPlotLen, );
     }
-    return plottable_scores;
+    if (this._isMounted) {
+      this.setState( {plottable_scores: plottable_scores} );
+    }
   }
 
   /**
@@ -192,26 +237,39 @@ class Scores extends Component {
   }
 
   /**
+    *   Modify currently showed GameMode, this.currentGameMode
+    *   Note: this should be connected to ToggleButtons
+    */
+  modifyScoreGameMode(gameModeValues) {
+    var gameModes = [];
+    gameModeValues.forEach(val => {
+      gameModes.push(val);
+    });
+    this.currentGameMode = gameModes;
+    this.getPlottableScores(gameModes);
+  }
+
+  /**
     *   Render the whole score page
     */
   render() {
     if (this.state.needsRedirect) {
       return <Redirect to='/scores' />
     } else {
-      var plottable_scores = this.getPlottableScores();
       var stats = this.getScoreStats();
       var levelsNav = this.getLevelsNav();
     }
-    console.log('plottable_scores: ', plottable_scores);
-    if ((this.state.scoresReady) && (this.state.allScoresReady) && (this.state.levelsReady)) {
-      if (plottable_scores.length > this.MinScoresPlotted) {
+    //console.log('plottable_scores: ', this.state.plottable_scores);
+    if ((this.state.scoresReady) && (this.state.allScoresReady) && (this.state.levelsReady) && (this.state.gameModesReady)) {
+      if (this.state.plottable_scores.length > this.MinScoresPlotted) {
         return (
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' />
             <NavBar items={levelsNav}/>
-            <Graph data={plottable_scores}  domain={{ 'x': [1, plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`}/>
+            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
+            <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`}/>
           </div>
         );
       } else {
@@ -221,6 +279,7 @@ class Scores extends Component {
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' />
             <NavBar items={levelsNav}/>
+            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <p>Not enough scores to plot history for {this.state.level}
             <br/>Play more first!</p>
           </div>
