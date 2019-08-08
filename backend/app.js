@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const scoresRouter = require('./routes/scores');
 const levelsRouter = require('./routes/levels');
+const gameModesRouter = require('./routes/game_modes');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/scores', scoresRouter);
 app.use('/api/levels', levelsRouter);
+app.use('/api/game_modes', gameModesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
