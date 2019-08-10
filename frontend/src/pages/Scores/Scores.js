@@ -300,6 +300,18 @@ class Scores extends Component {
   }
 
   /**
+    *   Create labels for plotting the distribution as a BarChart
+    *   @return an array of the x values used as labels
+    */
+  createDistributionLabels(distribution) {
+    var labels = [];
+    distribution.forEach(value => {
+      labels.push(value.x);
+    });
+    return labels;
+  }
+
+  /**
     *   Render the whole score page
     */
   render() {
@@ -309,6 +321,7 @@ class Scores extends Component {
       var stats = this.getScoreStats();
       var levelsNav = this.getLevelsNav();
       var distribution = this.createScoreDistribution(this.currentGameMode, this.state.level);
+      var topScore = this.getMaxLevelScore();
     }
     //console.log('plottable_scores: ', this.state.plottable_scores);
     if ((this.state.scoresReady) && (this.state.allScoresReady) && (this.state.levelsReady) && (this.state.gameModesReady)) {
@@ -317,12 +330,12 @@ class Scores extends Component {
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
-            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' />
+            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' offColor='black' />
             <NavBar items={levelsNav}/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`}/>
-            <h3>Top score: {this.getMaxLevelScore()} </h3>
-            <BarChart data={distribution} title='Score distribution' />
+            <h3>Top score: {topScore} </h3>
+            <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]}/>
           </div>
         );
       } else {
@@ -330,7 +343,7 @@ class Scores extends Component {
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
-            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' />
+            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' offColor='black' />
             <NavBar items={levelsNav}/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <p>Not enough scores to plot history for {this.state.level}
