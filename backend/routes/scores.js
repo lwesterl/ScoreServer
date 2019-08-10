@@ -16,11 +16,23 @@ const jsStringEscape = require('js-string-escape');
   *   @return scores in json format
   */
 router.get('/', function(req, res, next) {
-  scores_query = 'SELECT * FROM Scores;';
+  var scores_query = 'SELECT * FROM Scores;';
   db.select(scores_query, (scores) => {
     res.json(scores);
   });
 });
+
+/**
+  *   Get all Scores but return only score itself, level and gameMode
+  *   @return each score and level of Score entries as json
+  */
+  router.get('/scores_and_levels', function(req, res, next) {
+    var scores_query = 'SELECT score, level, gameMode FROM Scores;';
+    db.select(scores_query, (scores) => {
+      res.json(scores);
+    });
+  });
+
 
 /**
   *   Get all scores for specific user
@@ -32,7 +44,7 @@ router.get('/', function(req, res, next) {
     var user_name = jsStringEscape(req.query.name);
     var level_name = jsStringEscape(req.query.level);
     console.log(user_name, level_name)
-    scores_query = `SELECT * FROM Scores WHERE level="${level_name}" AND userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
+    var scores_query = `SELECT * FROM Scores WHERE level="${level_name}" AND userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
     if (level_name === 'get_all_levels') {
       scores_query = `SELECT * FROM Scores WHERE userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
     }
