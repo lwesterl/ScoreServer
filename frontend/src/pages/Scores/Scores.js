@@ -25,11 +25,12 @@ class Scores extends Component {
   constructor() {
     super();
     this.state = {
-      all_scores : [],
+      all_user_scores : [],
       scores : [],
       levels : [],
       gameModes : [],
       plottable_scores : [],
+      every_score : [],
       level : '',
       needsRedirect : false,
       scoresReady : false,
@@ -50,6 +51,7 @@ class Scores extends Component {
     this.getUser();
     this.getLevels();
     this.getGameModes();
+    this.fetchEveryScore();
   }
 
   /**
@@ -131,6 +133,20 @@ class Scores extends Component {
     }
 
   /**
+    *   Get every score, gameMode and level where the score was played on
+    *   Note: this updates state.every_score and should be called only once
+    */
+    fetchEveryScore() {
+      fetch('/api/scores/scores_and_levels')
+      .then(res => res.json())
+      .then(scores => {
+        if (this._isMounted) {
+          this.setState( {every_score : scores} );
+        }
+      });
+    }
+
+  /**
     *   Get all level specific scores and update state on level
     *   This is intended to be called via level navbar
     */
@@ -156,9 +172,9 @@ class Scores extends Component {
     if (this._isMounted) {
       fetch(`/api/scores/specific_scores?name=${this.props.match.params.name}&level=get_all_levels`)
       .then(res => res.json())
-      .then(all_scores => {
+      .then(all_user_scores => {
         if (this._isMounted) {
-          this.setState( {all_scores : all_scores} );
+          this.setState( {all_user_scores : all_user_scores} );
           this.setState( {allScoresReady : true} );
         }
       });
@@ -191,7 +207,7 @@ class Scores extends Component {
 
   /**
     *   Convert scores to plottable format
-    *   return: scores in the format where those can be fed to Graph
+    *   @return scores in the format where those can be fed to Graph
     */
   getPlottableScores(gameModes) {
     var plottable_scores = [];
@@ -209,15 +225,15 @@ class Scores extends Component {
   }
 
   /**
-    *   Compute stats from all_scores
-    *   return: a json containing the stats
+    *   Compute stats from all_user_scores
+    *   @return a json containing the stats
     */
   getScoreStats() {
     var fails = 0;
     var successes = 0;
     var ratio = 100;
-    for (var i = 0; i < this.state.all_scores.length; i++) {
-      if (this.state.all_scores[i].completed) successes++;
+    for (var i = 0; i < this.state.all_user_scores.length; i++) {
+      if (this.state.all_user_scores[i].completed) successes++;
       else fails++;
     }
     if (fails + successes !== 0) ratio = 100 * successes / (successes + fails);
@@ -226,7 +242,7 @@ class Scores extends Component {
 
   /**
     *   Convert state.levels to format in which those can be passed to NavBar
-    *   return: a list of jsons which contain attributes NavBar needs
+    *   @return a list of jsons which contain attributes NavBar needs
     */
   getLevelsNav() {
     var levelNav = [];
@@ -250,6 +266,40 @@ class Scores extends Component {
   }
 
   /**
+    *   Get max score for the selected level (from plottable_scores)
+    *   @return max score for the level
+    */
+  getMaxLevelScore() {
+    var max = Number.MIN_VALUE;
+    this.state.plottable_scores.forEach(entry => {
+      if (entry.y > max) max = entry.y;
+    });
+    return max;
+  }
+
+  /**
+    *   Create plottable score distribution
+    *   @param gameMode currently selected gameModes as an array
+    *   @param level currently selected level as a string
+    *   @return contents of state.every_score as plottable format
+    */
+  createScoreDistribution(gameModes, level) {
+    var distribution = []; // an array of objects: {'x':score, 'y':frequency}
+    var scores = new Map();
+    this.state.every_score.forEach(entry => {
+      if ((entry.level === level) && (gameModes.includes(entry.gameMode))) {
+        var key = entry.score;
+        if (scores.has(key)) scores.set(key, scores.get(key) + 1);
+        else scores.set(key, 1);
+      }
+    });
+    Array.from(scores.entries()).forEach(entry => {
+      distribution.push( {'x' : entry[0], 'y' : entry[1]} );
+    });
+    return distribution;
+  }
+
+  /**
     *   Render the whole score page
     */
   render() {
@@ -258,6 +308,7 @@ class Scores extends Component {
     } else {
       var stats = this.getScoreStats();
       var levelsNav = this.getLevelsNav();
+      var distribution = this.createScoreDistribution(this.currentGameMode, this.state.level);
     }
     //console.log('plottable_scores: ', this.state.plottable_scores);
     if ((this.state.scoresReady) && (this.state.allScoresReady) && (this.state.levelsReady) && (this.state.gameModesReady)) {
@@ -270,6 +321,8 @@ class Scores extends Component {
             <NavBar items={levelsNav}/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`}/>
+            <h3>Top score: {this.getMaxLevelScore()} </h3>
+            <BarChart data={distribution} title='Score distribution' />
           </div>
         );
       } else {
