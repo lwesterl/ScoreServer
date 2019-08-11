@@ -3,9 +3,11 @@ import { Redirect } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
 import Graph from '../../components/Graph';
 import BarChart from '../../components/BarChart';
-import Waiting from '../../components/Waiting';
+import Loading from '../../components/Loading';
 import CustomToggleButtons from '../../components/CustomToggleButtons';
 import './Scores.css';
+
+const PlayerImage = require('../../assets/images/Player.png');
 
 /**
   *   @class Scores
@@ -353,7 +355,9 @@ class Scores extends Component {
       }
     } else {
       return (
-        <Waiting />
+        <div>
+          <Loading animation={<div><h2>Loading</h2><img src={PlayerImage}/></div>} />
+        </div>
       );
     }
   }
