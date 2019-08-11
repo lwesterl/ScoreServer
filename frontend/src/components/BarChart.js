@@ -39,7 +39,7 @@ class BarChart extends Component {
     *   When eventsOn prop is true, labels are show on mouse hover
     */
   render() {
-    if (this.eventsOn) {
+    if ((this.eventsOn) && (this.props.data.length)) {
       return (
         <div>
           <h3>{this.props.title}</h3>
@@ -81,7 +81,7 @@ class BarChart extends Component {
           </VictoryGroup>
         </div>
       );
-    } else {
+    } else if (this.props.data.length) {
       return (
         <div>
           <h3>{this.props.title}</h3>
@@ -100,6 +100,10 @@ class BarChart extends Component {
           </VictoryGroup>
         </div>
       );
+    }
+    else {
+      // no data provided
+      return null;
     }
   }
 }
