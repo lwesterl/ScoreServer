@@ -62,12 +62,11 @@ class Scores extends Component {
   componentDidMount() {
     this._isMounted = true;
     this.updateAllScores();
-    this.updateLevelScores();
     // automatically refresh scores
     this.updateInterval = setInterval(() => {
       this.updateAllScores();
       this.updateLevelScores();
-    }, 2000);
+    }, 10000);
   }
 
   /**
@@ -105,7 +104,7 @@ class Scores extends Component {
           this.setState( {levels: levels}, () => {
             console.log('levels fetched: ', levels);
             if (levels.length) this.setState( {level : levels[0].name});
-            this.setState( {levelsReady: true});
+            this.setState( {levelsReady: true}, () => this.updateLevelScores());
           });
         }
       });
