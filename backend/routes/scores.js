@@ -23,15 +23,30 @@ router.get('/', function(req, res, next) {
 });
 
 /**
+  *   Get req.amount of Scores sorted by score
+  *   @return sorted scores in json format
+  */
+router.get('/top_scores', function(req, res, next) {
+  if (isNumeric(req.query.limit)) {
+    var scores_query = `SELECT * FROM Scores ORDER BY score DESC LIMIT ${req.query.limit};`;
+    db.select(scores_query, (scores) => {
+      res.json(scores);
+    });
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+/**
   *   Get all Scores but return only score itself, level and gameMode
   *   @return each score and level of Score entries as json
   */
-  router.get('/scores_and_levels', function(req, res, next) {
+router.get('/scores_and_levels', function(req, res, next) {
     var scores_query = 'SELECT score, level, gameMode FROM Scores;';
     db.select(scores_query, (scores) => {
       res.json(scores);
     });
-  });
+});
 
 
 /**
@@ -40,7 +55,7 @@ router.get('/', function(req, res, next) {
   *   Pass 'get_all_levels' as level_name to return all user specific scores
   *   @return scores in json format ordered by time, older first
   */
-  router.get('/specific_scores', function(req, res, next) {
+router.get('/specific_scores', function(req, res, next) {
     var user_name = jsStringEscape(req.query.name);
     var level_name = jsStringEscape(req.query.level);
     console.log(user_name, level_name)
@@ -51,7 +66,7 @@ router.get('/', function(req, res, next) {
     db.select(scores_query, (scores) => {
       res.json(scores);
     });
-  });
+});
 
 /**
   *   Add one new Score instance to the database
