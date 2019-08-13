@@ -355,7 +355,7 @@ class Scores extends Component {
     } else {
       return (
         <div>
-          <Loading animation={<div><h2>Loading</h2><img src={PlayerImage}/></div>} />
+          <Loading animation={<div><h2>Loading</h2><img src={PlayerImage} alt='Loading' /></div>} />
         </div>
       );
     }
