@@ -17,7 +17,7 @@ class ScoreTable extends Component {
     if (this.props.data !== undefined) {
       var rows = [];
       this.props.data.forEach(score => {
-        rows.push(<tr key={score.id}><td>{score.score}</td><td>{score.level}</td></tr>);
+        rows.push(<tr key={score.id}><td>{score.name}</td><td>{score.score}</td><td>{score.level}</td><td>{score.time}</td></tr>);
       });
       return (
         <div>

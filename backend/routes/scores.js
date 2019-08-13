@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
   */
 router.get('/top_scores', function(req, res, next) {
   if (isNumeric(req.query.limit)) {
-    var scores_query = `SELECT * FROM Scores ORDER BY score DESC LIMIT ${req.query.limit};`;
+    var scores_query = `SELECT score, level, time, name FROM Scores JOIN Users ON Users.id = userID ORDER BY score DESC LIMIT ${req.query.limit};`;
     db.select(scores_query, (scores) => {
       res.json(scores);
     });
