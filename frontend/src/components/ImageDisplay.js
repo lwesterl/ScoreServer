@@ -7,13 +7,15 @@ import React, { Component } from 'react';
   */
 class ImageDisplay extends Component {
 
+  _isMounted = false;
+
   /**
     *   Constructor
     *   Initializes state
     *   @param props props passed from parent
     *   props.images to be displayed in list and in image src format
     *   props.alts list of texts to be displayed as alt texts for the images (empty alts used if not provided)
-    *   props.interval image update interval, if not passed a default value is used 
+    *   props.interval image update interval, if not passed a default value is used
     *
     */
   constructor(props) {
@@ -29,10 +31,18 @@ class ImageDisplay extends Component {
     *   Start updating the displayed image
     */
   componentDidMount() {
+    this._isMounted = true;
     const interval = this.props.interval === undefined ? 5000 : this.props.interval;
     this.updateInterval = setInterval(() => {
-      this.loopImages();
+      if(this._isMounted) this.loopImages();
     }, interval);
+  }
+
+  /**
+    *   End updating the displayed image 
+    */
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   /**

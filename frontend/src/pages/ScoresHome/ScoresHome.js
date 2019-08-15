@@ -38,6 +38,13 @@ class ScoresHome extends Component {
   }
 
   /**
+    *   Deny updating the scores
+    */
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  /**
     *   Fetch top scores from backend api
     */
   fetchTopScores() {
