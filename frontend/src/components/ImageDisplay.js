@@ -25,6 +25,7 @@ class ImageDisplay extends Component {
     }
     this.imagesExist = true;
     if (props.images === undefined) this.imagesExist = false;
+    console.log('className:', props.className);
   }
 
   /**
@@ -39,7 +40,7 @@ class ImageDisplay extends Component {
   }
 
   /**
-    *   End updating the displayed image 
+    *   End updating the displayed image
     */
   componentWillUnmount() {
     this._isMounted = false;
@@ -66,7 +67,7 @@ class ImageDisplay extends Component {
       const alt = ((this.props.alts === undefined) || (this.props.alts.length !== this.props.images.length)) ? '' : this.props.alts[this.state.currentImage];
       return (
         <div>
-        <img src={this.props.images[this.state.currentImage]} alt={alt} />
+        <img src={this.props.images[this.state.currentImage]} alt={alt} className={this.props.className}/>
         </div>
       );
     } else {
