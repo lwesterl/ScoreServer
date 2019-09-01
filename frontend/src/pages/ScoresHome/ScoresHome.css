@@ -1,0 +1,28 @@
+table {
+  background-color: #209020;
+  color:white;
+  border-collapse: collapse;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  margin-bottom: 200px;
+}
+
+tr:hover {
+  background-color: #304010;
+}
+
+td {
+  padding: 5px;
+}
+
+strong {
+  font-size: 20px;
+  color: #103010;
+}
+
+h2 {
+  color: green;
+}

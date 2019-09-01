@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ScoreTable from '../../components/ScoreTable';
 import SearchBar from '../../components/SearchBar';
+import './ScoresHome.css';
 
 /**
   *   @class ScoresHome
@@ -83,6 +84,7 @@ class ScoresHome extends Component {
     if (this.state.topScoresLoaded) {
       return (
         <div>
+          <h2>Top scores</h2>
           <ScoreTable data={this.state.topScores} />
           <SearchBar placeholder='Username' onSubmit={this.userSubmit.bind(this)} onChange={this.updateSearch.bind(this)} />
         </div>
