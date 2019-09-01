@@ -18,11 +18,12 @@ td {
   padding: 5px;
 }
 
-strong {
+.greenTheme strong {
   font-size: 20px;
   color: #103010;
 }
 
-h2 {
+
+h2.greenTheme {
   color: green;
 }

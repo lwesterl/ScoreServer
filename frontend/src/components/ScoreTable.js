@@ -15,10 +15,10 @@ class ScoreTable extends Component {
     */
   render() {
     if (this.props.data !== undefined) {
-      var rows = [<tr key='-1'><td><strong>&#35;</strong></td><td><strong>Name</strong></td><td><strong>Score</strong></td><td><strong>Level</strong></td><td><strong>Time</strong></td></tr>];
+      var rows = [<tr key='-1' className={this.props.className}><td><strong>&#35;</strong></td><td><strong>Name</strong></td><td><strong>Score</strong></td><td><strong>Level</strong></td><td><strong>Time</strong></td></tr>];
       var i = 1;
       this.props.data.forEach(score => {
-        rows.push(<tr key={score.id}><td>{i}</td><td>{score.name}</td><td>{score.score}</td><td>{score.level}</td><td>{score.time}</td></tr>);
+        rows.push(<tr key={score.id} className={this.props.className}><td>{i}</td><td>{score.name}</td><td>{score.score}</td><td>{score.level}</td><td>{score.time}</td></tr>);
         i++;
       });
       return (

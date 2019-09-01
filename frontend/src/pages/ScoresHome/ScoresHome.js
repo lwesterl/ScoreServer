@@ -84,8 +84,8 @@ class ScoresHome extends Component {
     if (this.state.topScoresLoaded) {
       return (
         <div>
-          <h2>Top scores</h2>
-          <ScoreTable data={this.state.topScores} />
+          <h2 className='greenTheme'>Top scores</h2>
+          <ScoreTable data={this.state.topScores} className='greenTheme'/>
           <SearchBar placeholder='Username' onSubmit={this.userSubmit.bind(this)} onChange={this.updateSearch.bind(this)} />
         </div>
       );
