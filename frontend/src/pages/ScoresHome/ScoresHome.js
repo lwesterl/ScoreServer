@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ScoreTable from '../../components/ScoreTable';
 import SearchBar from '../../components/SearchBar';
+import FireworkDisplay from '../../components/FireworkDisplay';
 import './ScoresHome.css';
 
 /**
@@ -83,9 +84,11 @@ class ScoresHome extends Component {
   render() {
     if (this.state.topScoresLoaded) {
       return (
-        <div>
+        <div id='fireworks'>
+          <FireworkDisplay componentID='fireworks'/>
           <h2 className='greenTheme'>Top scores</h2>
           <ScoreTable data={this.state.topScores} className='greenTheme'/>
+          <h2>Score statistics</h2>
           <SearchBar placeholder='Username' onSubmit={this.userSubmit.bind(this)} onChange={this.updateSearch.bind(this)} />
         </div>
       );
