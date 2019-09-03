@@ -23,7 +23,14 @@ td {
   color: #103010;
 }
 
-
 h2.greenTheme {
   color: green;
+}
+
+
+input[type=text] {
+  background-color: inherit;
+  border: 2px solid red;
+  border-radius: 5px;
+  color: white;
 }

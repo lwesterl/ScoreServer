@@ -12,13 +12,13 @@ class SearchBar extends Component {
     this.handleChange = this.props.onChange;
     this.handleSubmit = this.props.onSubmit;
   }
-  
+
   render() {
     return(
       <div>
-        <form className='search' onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange} />
-         <input type="submit" value="Submit" />
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" onChange={this.handleChange} placeholder={this.props.placeholder} />
+          <input type="hidden" value="Submit" />
        </form>
       </div>
     );
