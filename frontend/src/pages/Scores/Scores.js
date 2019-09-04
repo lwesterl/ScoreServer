@@ -347,12 +347,12 @@ class Scores extends Component {
         return (
           <div>
             <h1>{this.props.match.params.name} scores</h1>
-            <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
+            <p className='stylishParagraph'>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success: {stats.ratio.toFixed(1)} %</p>
             <NavBar items={levelsNav} className='scoreNav'/>
-            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
+            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} className='toggleButtons' />
             <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`} width={this.PlotWidth} color={this.GraphColor} scatterColor={this.GraphScatterColor} />
-            <h3>Top score: {topScore} </h3>
+            <p className='stylishParagraph'><strong>Top score: {topScore}</strong></p>
             <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]} width={this.PlotWidth} offColor={this.DistributionOffColor} onColor={this.DistributionOnColor} standardColor={this.DistributionStandardColor} specialColor={this.DistributionSpecialColor} />
           </div>
         );
@@ -360,12 +360,11 @@ class Scores extends Component {
         return (
           <div>
             <h1>{this.props.match.params.name} scores</h1>
-            <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
+            <p className='stylishParagraph'>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success: {stats.ratio.toFixed(1)} %</p>
             <NavBar items={levelsNav} className='scoreNav'/>
-            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
-            <p>Not enough scores to plot history for {this.state.level}
-            <br/>Play more first!</p>
+            <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} className='toggleButtons' />
+            <p className='stylishParagraph'>Not enough scores to plot history for <strong>{this.state.level}</strong></p>
           </div>
         );
       }

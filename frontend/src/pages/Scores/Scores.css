@@ -1,5 +1,7 @@
 ul.scoreNav {
   display:table;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 li.scoreNav {
@@ -10,7 +12,17 @@ a.activatedScoreNav {
   background-color: red;
 }
 
+.toggleButtons {
+  padding: 10px;
+  color: white;
+  padding-bottom: 50px;
+}
 
-p {
+.stylishParagraph {
   color: red;
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
 }
