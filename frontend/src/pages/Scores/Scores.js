@@ -258,8 +258,14 @@ class Scores extends Component {
     */
   getLevelsNav() {
     var levelNav = [];
+    var i = 0;
     this.state.levels.forEach(entry => {
-      levelNav.push( {'href' : 'javascript:void(0)', 'name' : entry.name, 'onClick' : () => this.getLevelScores(entry.name)});
+      if (i === 0) {
+        levelNav.push( {'href' : 'javascript:void(0)', 'name' : entry.name, 'active' : true, 'onClick' : () => this.getLevelScores(entry.name)});
+      } else {
+       levelNav.push( {'href' : 'javascript:void(0)', 'name' : entry.name, 'active' : false, 'onClick' : () => this.getLevelScores(entry.name)});
+      }
+      i++; // just select the first level button as active
     });
     return levelNav;
   }
@@ -343,7 +349,7 @@ class Scores extends Component {
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
-            <NavBar items={levelsNav}/>
+            <NavBar items={levelsNav} className='scoreNav'/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`} width={this.PlotWidth} color={this.GraphColor} scatterColor={this.GraphScatterColor} />
             <h3>Top score: {topScore} </h3>
@@ -356,7 +362,7 @@ class Scores extends Component {
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
             <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
-            <NavBar items={levelsNav}/>
+            <NavBar items={levelsNav} className='scoreNav'/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <p>Not enough scores to plot history for {this.state.level}
             <br/>Play more first!</p>
