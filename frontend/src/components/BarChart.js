@@ -22,6 +22,7 @@ class BarChart extends Component {
     *   specialColor: color used on datapoints which are in props.specialxValues
     *   specialxValues: an array of special x values, used to draw datapoints
     *   with different color, see above
+    *   width: div width used for the bar chart container, defaults to 100%
     *   Note: it's only possible to set all the colors and eventsOn when the component
     *   is created, meanwhile specialxValues can be updated dynamically
     */
@@ -32,6 +33,7 @@ class BarChart extends Component {
     this.offColor = props.offColor === undefined ? 'transparent' : props.offColor;
     this.standardColor = props.standardColor === undefined ? 'gray' : props.standardColor;
     this.specialColor = props.specialColor === undefined ? 'black' : props.specialColor;
+    this.width = props.width === undefined ? '100%' : props.width;
   }
 
   /**
@@ -41,7 +43,7 @@ class BarChart extends Component {
   render() {
     if ((this.eventsOn) && (this.props.data.length)) {
       return (
-        <div>
+        <div style={{width : this.width, margin : 'auto'}}>
           <h3>{this.props.title}</h3>
           <VictoryGroup data={this.props.data}>
             <VictoryBar labels={this.props.labels}
@@ -83,7 +85,7 @@ class BarChart extends Component {
       );
     } else if (this.props.data.length) {
       return (
-        <div>
+        <div style={{width : this.width, margin : 'auto'}}>
           <h3>{this.props.title}</h3>
           <VictoryGroup data={this.props.data}>
             <VictoryBar labels={this.props.labels}
