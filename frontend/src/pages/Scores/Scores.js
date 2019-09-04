@@ -18,6 +18,17 @@ const PlayerImage = require('../../assets/images/Player.png');
 class Scores extends Component {
 
   _isMounted = false;
+  CareerStatsOffColor = 'white'; // color used for career stats plot labels
+  CareerStatsWinColor = '#209010'; // color used for successes in career stats
+  CareerStatsFailColor = 'red'; // color used for fails in career stats
+  GraphColor = 'red'; // color used for the level score Graph
+  GraphScatterColor = 'white'; // color used for the level score Graph scatter of datapoints
+  DistributionOnColor = 'white'; // color used for the score distribution plot on mouse hover
+  DistributionOffColor = 'red'; // color used for the score distribution when mouse not hovering on it
+  DistributionStandardColor = 'white'; // color used for the most of the datapoints in the score distribution plot
+  DistributionSpecialColor = 'red'; // color used for highligting used record in the score distribution plot
+  PlotWidth = '50%'; // width for plot containers, divs
+
 
 
   /**
@@ -331,12 +342,12 @@ class Scores extends Component {
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
-            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' offColor='black' />
+            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
             <NavBar items={levelsNav}/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
-            <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`}/>
+            <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`} width={this.PlotWidth} color={this.GraphColor} scatterColor={this.GraphScatterColor} />
             <h3>Top score: {topScore} </h3>
-            <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]}/>
+            <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]} width={this.PlotWidth} offColor={this.DistributionOffColor} onColor={this.DistributionOnColor} standardColor={this.DistributionStandardColor} specialColor={this.DistributionSpecialColor} />
           </div>
         );
       } else {
@@ -344,7 +355,7 @@ class Scores extends Component {
           <div>
             <h1>{this.props.match.params.name} scores</h1>
             <p>Completed: {stats.completed}<br/>Fails: {stats.fails}<br/>Success-%: {stats.ratio}</p>
-            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} labels={['Wins', 'Fails']} title='Career stats' offColor='black' />
+            <BarChart data={[{'x' : 'Wins', 'y' : stats.completed}, {'x' : 'Losses', 'y' : stats.fails}]} specialxValues={['Wins']} labels={['Wins', 'Fails']} title='Career stats' offColor={this.CareerStatsOffColor} specialColor={this.CareerStatsWinColor}  standardColor={this.CareerStatsFailColor} width={this.PlotWidth} />
             <NavBar items={levelsNav}/>
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} />
             <p>Not enough scores to plot history for {this.state.level}
