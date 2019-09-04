@@ -9,6 +9,12 @@ const Fireworks = require('fireworks-canvas');
   *   this.props.componentID: id for the element fireworks are displayed on
   */
 class FireworkDisplay extends Component {
+
+  constructor() {
+    super();
+    this.fireworks = null;
+  }
+
   render() {
     return null;
   }
@@ -19,9 +25,13 @@ class FireworkDisplay extends Component {
   componentDidMount() {
     const container = document.getElementById(this.props.componentID);
     if (container) {
-      const fireworks = new Fireworks(container);
-      fireworks.start();
+      this.fireworks = new Fireworks(container);
+      this.fireworks.start();
     }
+  }
+
+  componentWillUnmount() {
+    if (this.fireworks) this.fireworks.kill();
   }
 }
 
