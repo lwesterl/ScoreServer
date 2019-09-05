@@ -6,15 +6,22 @@ services:
     image: backend
     ports:
       - 8000:8000
+    restart: unless-stopped
 
   frontend:
     image: frontend
     ports:
       - 5000:5000
+    restart: unless-stopped
 
   proxy:
     image: nginx
     volumes:
       - ./nginx_conf.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/cache/:/etc/nginx/cache
+      - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - 80:80
+      - 443:443
+    restart: unless-stopped

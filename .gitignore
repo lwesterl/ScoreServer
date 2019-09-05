@@ -1,0 +1,2 @@
+# ignore nginx docker logs etc.
+nginx/
