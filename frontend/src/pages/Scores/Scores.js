@@ -99,6 +99,10 @@ class Scores extends Component {
         if ((user.length === 0) && (this._isMounted)) {
           this.setState( {needsRedirect : true});
         }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({needsRedirect : true});
       });
     }
 
@@ -261,9 +265,9 @@ class Scores extends Component {
     var i = 0;
     this.state.levels.forEach(entry => {
       if (i === 0) {
-        levelNav.push( {'href' : 'javascript:void(0)', 'name' : entry.name, 'active' : true, 'onClick' : () => this.getLevelScores(entry.name)});
+        levelNav.push( {'href' : void(0), 'name' : entry.name, 'active' : true, 'onClick' : () => this.getLevelScores(entry.name)});
       } else {
-       levelNav.push( {'href' : 'javascript:void(0)', 'name' : entry.name, 'active' : false, 'onClick' : () => this.getLevelScores(entry.name)});
+       levelNav.push( {'href' : void(0), 'name' : entry.name, 'active' : false, 'onClick' : () => this.getLevelScores(entry.name)});
       }
       i++; // just select the first level button as active
     });

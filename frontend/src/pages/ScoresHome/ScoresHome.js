@@ -71,11 +71,11 @@ class ScoresHome extends Component {
 
   /**
     *   Submit search from SearchBar
-    *   event: not used
+    *   @param event form submission event
     */
   userSubmit(event) {
+    event.preventDefault(); // prevent the form itself from being submitted
     this.props.history.push(`/scores/${this.search}`);
-
   }
 
   /**

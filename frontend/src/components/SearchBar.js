@@ -4,7 +4,6 @@ import React, { Component } from 'react';
   *   @class SearchBar
   *   Show a searchbar
   *   Note: pass onSubmit and onChange as props
-  *   Todo: make much nice looking
   */
 class SearchBar extends Component {
   constructor(props) {
@@ -17,12 +16,10 @@ class SearchBar extends Component {
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange} placeholder={this.props.placeholder} />
-          <input type="hidden" value="Submit" />
+          <input required type="text" pattern='^[a-zA-Z0-9 _.-]*$' title='No special characters allowed' onChange={this.handleChange} placeholder={this.props.placeholder} />
        </form>
       </div>
     );
   }
 }
-
 export default SearchBar;
