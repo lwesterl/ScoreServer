@@ -25,7 +25,7 @@ class ImageDisplay extends Component {
     }
     this.imagesExist = true;
     if (props.images === undefined) this.imagesExist = false;
-    console.log('className:', props.className);
+    //console.log('className:', props.className);
   }
 
   /**

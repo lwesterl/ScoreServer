@@ -56,7 +56,7 @@ class ScoresHome extends Component {
       if (this._isMounted) {
         this.setState( {topScores : scores });
         this.setState( {topScoresLoaded : true });
-        console.log('topScores:', this.state.topScores);
+        //console.log('topScores:', this.state.topScores);
       }
     });
   }

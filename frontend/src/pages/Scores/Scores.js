@@ -101,7 +101,7 @@ class Scores extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         this.setState({needsRedirect : true});
       });
     }
@@ -117,7 +117,7 @@ class Scores extends Component {
       .then(levels => {
         if (this._isMounted) {
           this.setState( {levels: levels}, () => {
-            console.log('levels fetched: ', levels);
+            //console.log('levels fetched: ', levels);
             if (levels.length) this.setState( {level : levels[0].name});
             this.setState( {levelsReady: true}, () => this.updateLevelScores());
           });
@@ -173,7 +173,7 @@ class Scores extends Component {
     .then(scores => {
       if (this._isMounted) {
         this.setState( {scores: scores} );
-        console.log('Scores fetched: ', scores);
+        //console.log('Scores fetched: ', scores);
         this.getPlottableScores(this.currentGameMode);
       }
     });
@@ -208,7 +208,7 @@ class Scores extends Component {
       .then(scores => {
         if (this._isMounted) {
           this.setState( {scores: scores} );
-          console.log('Scores fetched: ', scores);
+          //console.log('Scores fetched: ', scores);
           this.setState( {scoresReady : true});
 
           // show the first initialGameMode scores in Graph, initialGameMode is set by getGameModes
