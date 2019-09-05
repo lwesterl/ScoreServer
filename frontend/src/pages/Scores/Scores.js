@@ -122,6 +122,10 @@ class Scores extends Component {
             this.setState( {levelsReady: true}, () => this.updateLevelScores());
           });
         }
+      })
+      .catch((error) => {
+        //console.log(error);
+        this.setState({needsRedirect : true});
       });
     }
 
@@ -145,6 +149,10 @@ class Scores extends Component {
             this.currentGameMode = [this.state.gameModes[0].value];
           }
         }
+      })
+      .catch((error) => {
+        //console.log(error);
+        this.setState({needsRedirect : true});
       });
     }
 
@@ -159,6 +167,10 @@ class Scores extends Component {
         if (this._isMounted) {
           this.setState( {every_score : scores} );
         }
+      })
+      .catch((error) => {
+        //console.log(error);
+        this.setState({needsRedirect : true});
       });
     }
 
@@ -176,6 +188,9 @@ class Scores extends Component {
         //console.log('Scores fetched: ', scores);
         this.getPlottableScores(this.currentGameMode);
       }
+    })
+    .catch((error) => {
+      //console.log(error);
     });
   }
 
@@ -193,6 +208,9 @@ class Scores extends Component {
           this.setState( {all_user_scores : all_user_scores} );
           this.setState( {allScoresReady : true} );
         }
+      })
+      .catch((error) => {
+        //console.log(error);
       });
     }
   }
@@ -217,6 +235,9 @@ class Scores extends Component {
             this.GraphInitialized = true;
           }
         }
+      })
+      .catch((error) => {
+        //console.log(error);
       });
     }
   }

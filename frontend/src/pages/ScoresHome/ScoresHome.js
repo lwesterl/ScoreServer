@@ -21,7 +21,8 @@ class ScoresHome extends Component {
     super();
     this.state = {
       topScores : [],
-      topScoresLoaded : false
+      topScoresLoaded : false,
+      error : false
     }
     this.search = '';
     this.ScoreLen = 10;
@@ -58,6 +59,10 @@ class ScoresHome extends Component {
         this.setState( {topScoresLoaded : true });
         //console.log('topScores:', this.state.topScores);
       }
+    })
+    .catch((error) => {
+      // console.log(error);
+      this.setState( {error: true} );
     });
   }
 
@@ -90,6 +95,12 @@ class ScoresHome extends Component {
           <ScoreTable data={this.state.topScores} className='greenTheme'/>
           <h2>Score statistics</h2>
           <SearchBar placeholder='Username' onSubmit={this.userSubmit.bind(this)} onChange={this.updateSearch.bind(this)} />
+        </div>
+      );
+    } else if (this.state.error) {
+      return (
+        <div>
+          <h3>Sorry, no statistics can be displayed at the moment</h3>
         </div>
       );
     } else {
