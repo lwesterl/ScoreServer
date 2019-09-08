@@ -18,7 +18,8 @@ class VideoPlayback extends Component {
     super(props);
 
     this.state = {
-      paused : true
+      paused : true,
+      muted : true
     }
     this.videoRef = React.createRef();
   }
@@ -52,6 +53,14 @@ class VideoPlayback extends Component {
   }
 
   /**
+    *   Unmute/mute video
+    *   Changes state muted
+    */
+  unmute() {
+    if (this._isMounted) this.setState( {muted : !this.state.muted}, () => this.videoRef.current.muted = this.state.muted);
+  }
+
+  /**
     *   Play/stop video playback depending on the state.paused
     */
   play() {
@@ -65,12 +74,13 @@ class VideoPlayback extends Component {
     *   Render
     *   Show a video which is played on hover or touch
     *   If no video provided, render null
+    *   Note: modern browsers support only video autoplay in muted mode, the video needs to be clicked to unmute it
     */
   render() {
     if (this.props.video !== undefined) {
       return (
         <div>
-          <video onMouseEnter={this.mouseEnter.bind(this)} onMouseLeave={this.mouseLeave.bind(this)} ref={this.videoRef} src={this.props.video} type='video/mp4' />
+          <video muted={true} onClick={this.unmute.bind(this)} onMouseEnter={this.mouseEnter.bind(this)} onMouseLeave={this.mouseLeave.bind(this)} ref={this.videoRef} src={this.props.video} type='video/mp4' />
         </div>
       );
     } else {
