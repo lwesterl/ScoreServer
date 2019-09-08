@@ -19,6 +19,7 @@ const Level4Image1 = require('../../assets/images/level_images/level4_image1.png
 const Level4Image2 = require('../../assets/images/level_images/level4_image2.png');
 const Level5Image1 = require('../../assets/images/level_images/level5_image1.png');
 const Level5Image2 = require('../../assets/images/level_images/level5_image2.png');
+const video = require('../../assets/videos/TunnelEscape_video.mp4');
 
 const AnimationDiv = styled.div`animation: 5s ${keyframes `${flipInX}`}`;
 
@@ -43,8 +44,7 @@ function Home() {
       </AnimationDiv>
       <h3><strong>TunnelEscape moments</strong></h3>
       <ImageDisplay images={LevelImages} alts={LevelImageAlts} className='imageDisplay'/>
-       <p>TODO: add a real video</p>
-      <VideoPlayback video='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4' />
+      <VideoPlayback video={video} />
     </div>
   );
 
