@@ -12,8 +12,8 @@ ul {
 li {
     display: inline-block;
     text-align: center;
-    padding: 40px;
-    height: 40px;
+    padding: 20px;
+    height: 15px;
     width: auto;
 }
 
@@ -21,7 +21,7 @@ li a {
   display: block;
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   text-decoration: none;
 }
 

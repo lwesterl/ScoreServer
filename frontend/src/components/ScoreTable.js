@@ -15,15 +15,19 @@ class ScoreTable extends Component {
     */
   render() {
     if (this.props.data !== undefined) {
-      var rows = [<tr key='-1' className={this.props.className}><td><strong>&#35;</strong></td><td><strong>Name</strong></td><td><strong>Score</strong></td><td><strong>Level</strong></td><td><strong>Time</strong></td></tr>];
+      const header = [<tr key='-1' className={this.props.className}><td label='&#35;'><strong>&#35;</strong></td><td label='Name'><strong>Name</strong></td><td label='Score'><strong>Score</strong></td><td label='Level'><strong>Level</strong></td><td label='Time'><strong>Time</strong></td></tr>];
+      var rows = [];
       var i = 1;
       this.props.data.forEach(score => {
-        rows.push(<tr key={score.id} className={this.props.className}><td>{i}</td><td>{score.name}</td><td>{score.score}</td><td>{score.level}</td><td>{score.time}</td></tr>);
+        rows.push(<tr key={score.id} className={this.props.className}><td label='&#35;'>{i}</td><td label='Name'>{score.name}</td><td label='Score'>{score.score}</td><td label='Level'>{score.level}</td><td label='Time'>{score.time}</td></tr>);
         i++;
       });
       return (
         <div>
           <table>
+            <thead>
+              {header}
+            </thead>
             <tbody>
               {rows}
             </tbody>
