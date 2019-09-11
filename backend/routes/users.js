@@ -54,7 +54,8 @@ router.post('/add_user', function(req, res, next) {
         var new_id = id[0].id + 1; // this should be unique to be used as primary key
         const insert = `INSERT INTO Users VALUES(${new_id}, "${name}");`;
         db.add_entries(insert, (result) => {
-          res.sendStatus(result);
+          console.log(result);
+          res.status(result).send(`${new_id}`);
           // if 403 is returned here, unique constrant on name has probably failed
         });
       }
