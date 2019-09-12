@@ -73,14 +73,15 @@ router.get('/specific_scores', function(req, res, next) {
   *   @param req body should contain a new Score as json
   *   @return 200 on success, 403 on failure, see console log
   *   Note: id which is used as primary key for Score is automatically choosen
-  *   For testing: curl -X POST -H 'Content-Type:application/json' -d '{ "score": 300, "time": "01-01-2019 21:00", "completed": 1, "level": "Level 3", "userID": 1 }' http://localhost:5000/api/scores/add_score
+  *   For testing: curl -X POST -H 'Content-Type:application/json' -d '{ "score": 300, "time": "01-01-2019 21:00", "completed": 1, "level": "Level 3", "userID": 1, "gameMode" : 0 }' http://localhost:5000/api/scores/add_score
   */
 router.post('/add_score', function(req, res, next) {
   var new_score = req.body;
   if (('score' in new_score) && ('time' in new_score) &&
-  ('completed' in new_score) && ('level' in new_score) && ('userID' in new_score)) {
+  ('completed' in new_score) && ('level' in new_score) &&
+  ('userID' in new_score) && ('gameMode' in new_score)) {
     if ((isNumeric(new_score.score)) && (new_score.completed === 1 || new_score.completed === 0)
-    && (isInteger(new_score.userID))) {
+    && (isInteger(new_score.userID)) && (isInteger(new_score.gameMode))) {
       const id_query = 'SELECT MAX(id) as id FROM Scores;';
 
       db.select(id_query, (id) => {
@@ -88,7 +89,7 @@ router.post('/add_score', function(req, res, next) {
           res.sendStatus(304);
         } else {
           var new_id = id[0].id + 1; // this should be unique
-          const insert = `INSERT INTO Scores VALUES(${new_id}, ${new_score.score}, "${jsStringEscape(new_score.time.trim())}", ${new_score.completed}, "${jsStringEscape(new_score.level.trim())}", ${new_score.userID});`;
+          const insert = `INSERT INTO Scores VALUES(${new_id}, ${new_score.score}, "${jsStringEscape(new_score.time.trim())}", ${new_score.completed}, "${jsStringEscape(new_score.level.trim())}", ${new_score.userID}, ${new_score.gameMode});`;
           db.add_entries(insert, (result) => {
             res.sendStatus(result);
           });
