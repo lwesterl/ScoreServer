@@ -6,6 +6,9 @@ ul.scoreNav {
 
 li.scoreNav {
   display: inline-block;
+  padding: 0px;
+  padding-bottom: 25px;
+  width: 150px;
 }
 
 a.activatedScoreNav {
