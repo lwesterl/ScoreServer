@@ -75,8 +75,10 @@ class Scores extends Component {
     this.updateAllScores();
     // automatically refresh scores
     this.updateInterval = setInterval(() => {
-      this.updateAllScores();
-      this.updateLevelScores();
+      if (this._isMounted) {
+        this.updateAllScores();
+        this.updateLevelScores();
+      }
     }, 10000);
   }
 

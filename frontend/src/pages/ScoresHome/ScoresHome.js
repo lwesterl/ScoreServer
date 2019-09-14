@@ -36,7 +36,7 @@ class ScoresHome extends Component {
     this._isMounted = true;
     this.fetchTopScores();
     this.updateInterval = setInterval(() => {
-      this.fetchTopScores();
+      if (this._isMounted) this.fetchTopScores();
     }, 10000);
   }
 
