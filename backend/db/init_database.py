@@ -11,6 +11,7 @@ import sys
 # Database related constants
 DATABASE_PATH = 'database.db'
 INIT_SQL_PATH = 'tables.sql'
+INIT_TABLES_PATH = 'production_database.sql'
 
 
 '''
@@ -28,15 +29,17 @@ def create_database():
         sys.exit(-1)
 
 '''
-Init database based on commands in INIT_SQL_PATH file
+Init database based on commands in an init file
+conn: the database connection
+init_file: sql file which contains init commands
 '''
-def init_db(conn):
+def init_db(conn, init_file):
     cursor = conn.cursor()
 
     # Create tables defined in INIT_SQL_PATH
     try:
         content = None
-        with open(INIT_SQL_PATH, 'r') as file:
+        with open(init_file, 'r') as file:
             content = file.read()
 
         queries = content.split(';')
@@ -55,7 +58,8 @@ Entry point to the script
 '''
 def main():
     conn = create_database()
-    init_db(conn)
+    init_db(conn, INIT_SQL_PATH)
+    init_db(conn, INIT_TABLES_PATH)
     try:
         conn.close()
     except Error as e:

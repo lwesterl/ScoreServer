@@ -4,6 +4,8 @@ services:
 
   backend:
     image: backend
+    volumes:
+      - ./backend/db/database.db:/dir/db/database.db
     ports:
       - 8000:8000
     restart: unless-stopped
