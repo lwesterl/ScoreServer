@@ -8,6 +8,12 @@
   margin-right: auto;
 }
 
+@media screen and (max-width: 900px) {
+  .about {
+    width: 90%;
+  }
+}
+
 .copyright {
   color: #900010;
   padding-top: 100px;
