@@ -53,4 +53,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// set console logging off when on production (could be also redirected to a normal file)
+if (app.get('env') === 'production') {
+  const fs = require('fs');
+  const util = require('util');
+  const log_file = fs.createWriteStream('/dev/null'); // redirect to /dev/null
+
+  console.log = function(msg) {
+    log_file.write(util.format(msg) + '\n');
+  };
+}
+
 module.exports = app;
