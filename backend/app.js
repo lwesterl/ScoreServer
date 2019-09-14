@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -43,5 +44,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// simple rate limiter
+app.set('trust proxy', 1);
+const limiter = rateLimit({
+  windowsMs: 15 * 60 * 1000, // 15 mins
+  max: 500 // limit to 500 request per ip in windowsMs time period
+});
+app.use(limiter);
 
 module.exports = app;
