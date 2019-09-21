@@ -1,3 +1,9 @@
+/**
+  *   @file App.js
+  *   ScoreServer main component, App
+  *   @author Lauri Westerholm
+  */
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import './App.css';
@@ -6,6 +12,10 @@ import ScoresHome from '../ScoresHome/ScoresHome';
 import Scores from '../Scores/Scores';
 import About from '../About/About';
 
+/**
+  *   App
+  *   Handle routes between the pages
+  */
 function App() {
   return (
     <Router>

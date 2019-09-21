@@ -1,3 +1,9 @@
+/**
+  *   @file Index.js
+  *   Index for ScoreServer client
+  *   @author Lauri Westerholm, using Create React App
+  */
+
 import React from 'react';
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker';

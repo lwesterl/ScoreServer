@@ -1,3 +1,9 @@
+/**
+  *   @file Scores.js
+  *   User specific scores page
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import NavBar from '../../components/NavBar';

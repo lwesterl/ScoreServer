@@ -1,3 +1,8 @@
+/**
+  *   @file Graph.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory';
 
@@ -10,7 +15,7 @@ import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory';
   *   title: showed as graph title
   *   width: div width used for the graph, defaults to 100%
   *   color: color used for the graph
-  *   scatterColor: color used for the datapoints in the graph 
+  *   scatterColor: color used for the datapoints in the graph
   */
 class Graph extends Component {
 

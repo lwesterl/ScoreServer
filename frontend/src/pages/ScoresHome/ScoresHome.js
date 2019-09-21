@@ -1,3 +1,10 @@
+/**
+  *   @file ScoresHome.js
+  *   Home page for scores, displays the top scores and allows to search for user
+  *   specific scores
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import ScoreTable from '../../components/ScoreTable';
 import SearchBar from '../../components/SearchBar';

@@ -1,3 +1,8 @@
+/**
+  *   @file Loading.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import { flash } from 'react-animations';
 import styled, { keyframes } from 'styled-components';

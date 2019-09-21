@@ -1,3 +1,9 @@
+/**
+  *   @file index.js
+  *   Index route
+  *   @author Lauri Westerholm
+  */
+
 const express = require('express');
 const router = express.Router();
 

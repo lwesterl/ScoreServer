@@ -1,3 +1,8 @@
+/**
+  *   @file NavBar.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import ClickableAction from './ClickableAction';
 

@@ -1,3 +1,8 @@
+/**
+  *   @file CustomToggleButtons.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'

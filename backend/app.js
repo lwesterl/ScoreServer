@@ -1,3 +1,9 @@
+/**
+  *   @file app.js
+  *   App routing and functionality
+  *   @author Lauri Westerholm
+  */
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');

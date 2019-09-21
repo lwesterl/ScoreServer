@@ -1,4 +1,5 @@
 /**
+  *   @file users.js
   *   Users related backend api
   *   @author Lauri Westerholm
   */

@@ -1,3 +1,8 @@
+/**
+  *   @file FireworkDisplay.js
+  *   @author Lauri Westerholm
+  */
+
 import { Component } from 'react';
 
 const Fireworks = require('fireworks-canvas');

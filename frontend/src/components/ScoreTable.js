@@ -1,3 +1,8 @@
+/**
+  *   @file ScoreTable.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 
 

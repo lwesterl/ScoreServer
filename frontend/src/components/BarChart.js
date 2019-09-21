@@ -1,3 +1,8 @@
+/**
+  *   @file BarChart.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 import { VictoryGroup, VictoryBar } from 'victory';
 

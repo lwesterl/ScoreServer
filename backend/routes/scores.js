@@ -1,4 +1,5 @@
 /**
+  *   @file scores.js
   *   Score related backend api
   *   @author Lauri Westerholm
   */

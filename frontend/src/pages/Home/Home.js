@@ -1,3 +1,9 @@
+/**
+  *   @file Home.js
+  *   ScoreServer Home page
+  *   @author Lauri Westerholm
+  */
+
 import React from 'react';
 import { flipInX } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
@@ -35,7 +41,10 @@ const LevelImageAlts = [ 'Bonus level image 1', 'Level1 image 1', 'Level2 image1
                          'Level completed image', 'Level4 image 1', 'Level2 image2', 'Level5 image 2',
                          'Level4 image 2'
                        ]
-
+/**
+  *   Home
+  *   Display TunnelEscape title, images and a video
+  */
 function Home() {
   return (
     <div>

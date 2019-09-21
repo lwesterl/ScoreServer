@@ -1,4 +1,5 @@
 /**
+  *   @file game_modes.js
   *   GameModes related backend api
   *   @author Lauri Westerholm
   */

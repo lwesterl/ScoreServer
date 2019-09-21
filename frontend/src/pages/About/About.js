@@ -1,3 +1,9 @@
+/**
+  *   @file About.js
+  *   ScoreServer About page
+  *   @author Lauri Westerholm
+  */
+
 import React from 'react';
 import HideComponent from '../../components/HideComponent';
 import './About.css';
@@ -13,6 +19,7 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 <p className='about'><a href='https://github.com/lwesterl/ScoreServer' target='_blank'  rel='noopener noreferrer' className='about'>ScoreServer on GitHub</a></p>]
 
 /**
+  *   About
   *   Render About page
   */
 function About() {

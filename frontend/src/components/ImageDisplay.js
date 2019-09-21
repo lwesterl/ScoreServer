@@ -1,3 +1,8 @@
+/**
+  *   @file ImageDisplay.js
+  *   @author Lauri Westerholm
+  */
+
 import React, { Component } from 'react';
 
 
