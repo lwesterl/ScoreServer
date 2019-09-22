@@ -29,7 +29,7 @@ For production deployment also Docker is needed.
 
 1. Create a test database
 ```
-cd backend && python3 init_database.py && cd ..
+cd backend/db && python3 init_database.py && cd ../..
 ```
 - Add some test entries to the database by executing backend/tables.sql
  - a sql editor / execution software of your choice is required
@@ -42,7 +42,7 @@ The command starts both frontend and backend. ScoreServer now available on:
 http://localhost:3000/
 
 ## Production
-1. Install nodejs, modules and docker
+1. Install docker
 2. Create the production database
 - Remove possible development database and run:
 ```
