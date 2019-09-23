@@ -9,7 +9,7 @@ const db = require('../db/db');
 const router = express.Router();
 const isNumeric = require('isnumeric');
 const isInteger = require('is-integer');
-const jsStringEscape = require('js-string-escape');
+const jsStringEscape = require('js-string-escape'); // this is basically redundantly used
 
 
 /**
@@ -17,7 +17,7 @@ const jsStringEscape = require('js-string-escape');
   *   @return scores in json format
   */
 router.get('/', function(req, res, next) {
-  var scores_query = 'SELECT * FROM Scores;';
+  const scores_query = 'SELECT * FROM Scores;';
   db.select(scores_query, (scores) => {
     res.json(scores);
   });
@@ -29,8 +29,8 @@ router.get('/', function(req, res, next) {
   */
 router.get('/top_scores', function(req, res, next) {
   if (isNumeric(req.query.limit)) {
-    var scores_query = `SELECT Scores.id as id, score, level, time, name FROM Scores JOIN Users ON Users.id = userID ORDER BY score DESC LIMIT ${req.query.limit};`;
-    db.select(scores_query, (scores) => {
+    const scores_query = 'SELECT Scores.id as id, score, level, time, name FROM Scores JOIN Users ON Users.id = userID ORDER BY score DESC LIMIT ?;';
+    db.select_prepared(scores_query, [req.query.limit], (scores) => {
       res.json(scores);
     });
   } else {
@@ -43,7 +43,7 @@ router.get('/top_scores', function(req, res, next) {
   *   @return each score and level of Score entries as json
   */
 router.get('/scores_and_levels', function(req, res, next) {
-    var scores_query = 'SELECT score, level, gameMode FROM Scores;';
+    const scores_query = 'SELECT score, level, gameMode FROM Scores;';
     db.select(scores_query, (scores) => {
       res.json(scores);
     });
@@ -60,11 +60,13 @@ router.get('/specific_scores', function(req, res, next) {
     var user_name = jsStringEscape(req.query.name);
     var level_name = jsStringEscape(req.query.level);
     console.log(user_name, level_name)
-    var scores_query = `SELECT * FROM Scores WHERE level="${level_name}" AND userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
+    var scores_query = 'SELECT * FROM Scores WHERE level=? AND userID IN (SELECT id FROM Users WHERE name=?) ORDER BY time ASC;';
+    var values = [level_name, user_name];
     if (level_name === 'get_all_levels') {
-      scores_query = `SELECT * FROM Scores WHERE userID IN (SELECT id FROM Users WHERE name="${user_name}") ORDER BY time ASC;`
+      scores_query = 'SELECT * FROM Scores WHERE userID IN (SELECT id FROM Users WHERE name=?) ORDER BY time ASC;';
+      values = [user_name];
     }
-    db.select(scores_query, (scores) => {
+    db.select_prepared(scores_query, values, (scores) => {
       res.json(scores);
     });
 });
@@ -90,8 +92,9 @@ router.post('/add_score', function(req, res, next) {
           res.sendStatus(304);
         } else {
           var new_id = id[0].id + 1; // this should be unique
-          const insert = `INSERT INTO Scores VALUES(${new_id}, ${new_score.score}, "${jsStringEscape(new_score.time.trim())}", ${new_score.completed}, "${jsStringEscape(new_score.level.trim())}", ${new_score.userID}, ${new_score.gameMode});`;
-          db.add_entries(insert, (result) => {
+          const insert = 'INSERT INTO Scores VALUES(?, ?, ?, ?, ?, ?, ?);';
+          const values = [new_id, new_score.score, jsStringEscape(new_score.time.trim()), new_score.completed, jsStringEscape(new_score.level.trim()), new_score.userID, new_score.gameMode];
+          db.add_entries(insert, values, (result) => {
             res.sendStatus(result);
           });
         }

@@ -8,7 +8,7 @@ const express = require('express');
 const db = require('../db/db');
 const router = express.Router();
 const isNumeric = require('isnumeric');
-const jsStringEscape = require('js-string-escape');
+const jsStringEscape = require('js-string-escape'); // this is basically redundantly used
 
 
 /**
@@ -28,8 +28,8 @@ router.get('/', function(req, res, next) {
   */
 router.get('/user/:name', function(req, res, next) {
   var name = jsStringEscape(req.params.name);
-   const query = `SELECT * from Users WHERE name="${name}";`;
-  db.select(query, (user) => {
+   const query = 'SELECT * from Users WHERE name=?;';
+  db.select_prepared(query, [name], (user) => {
     res.json(user);
   });
 });
@@ -53,8 +53,9 @@ router.post('/add_user', function(req, res, next) {
         res.sendStatus(304);
       } else {
         var new_id = id[0].id + 1; // this should be unique to be used as primary key
-        const insert = `INSERT INTO Users VALUES(${new_id}, "${name}");`;
-        db.add_entries(insert, (result) => {
+        const insert = 'INSERT INTO Users VALUES(?, ?);';
+        const values = [new_id, name];
+        db.add_entries(insert, values, (result) => {
           console.log(result);
           res.status(result).send(`${new_id}`);
           // if 403 is returned here, unique constrant on name has probably failed
