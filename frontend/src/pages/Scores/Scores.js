@@ -238,10 +238,9 @@ class Scores extends Component {
           this.setState( {scoresReady : true});
 
           // show the first initialGameMode scores in Graph, initialGameMode is set by getGameModes
-          if (!this.GraphInitialized) {
-            this.getPlottableScores(this.currentGameMode);
-            this.GraphInitialized = true;
-          }
+          // or update currently showed scores without a refresh
+          this.getPlottableScores(this.currentGameMode);
+          this.GraphInitialized = true;
         }
       })
       .catch((error) => {
