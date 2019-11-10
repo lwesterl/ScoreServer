@@ -352,11 +352,16 @@ class Scores extends Component {
   /**
     *   Create labels for plotting the distribution as a BarChart
     *   @return an array of the x values used as labels
+    *   Note: this adds only the min and max value to labels, otherwise it will
+    *   add empty labels
     */
   createDistributionLabels(distribution) {
+    var max = Math.max(...distribution.map(item => item.x));
+    var min = Math.min(...distribution.map(item => item.x));
     var labels = [];
     distribution.forEach(value => {
-      labels.push(value.x);
+      if ((value.x === max) || (value.x === min)) labels.push(value.x);
+      else labels.push('');
     });
     return labels;
   }
