@@ -390,7 +390,7 @@ class Scores extends Component {
             <CustomToggleButtons buttons={this.state.gameModes} onChange={this.modifyScoreGameMode.bind(this)} defaultValue={this.currentGameMode} className='toggleButtons' />
             <Graph data={this.state.plottable_scores}  domain={{ 'x': [1, this.state.plottable_scores.length], 'y' : [0, 300]}} title={`Score history: ${this.state.level}`} width={this.PlotWidth} color={this.GraphColor} scatterColor={this.GraphScatterColor} />
             <p className='stylishParagraph'><strong>Top score: {topScore}</strong></p>
-            <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]} width={this.PlotWidth} offColor={this.DistributionOffColor} onColor={this.DistributionOnColor} standardColor={this.DistributionStandardColor} specialColor={this.DistributionSpecialColor} />
+            <BarChart data={distribution} title='Score distribution' labels={this.createDistributionLabels(distribution)} eventsOn={true} specialxValues={[topScore]} width={this.PlotWidth} offColor={this.DistributionOffColor} onColor={this.DistributionOnColor} standardColor={this.DistributionStandardColor} specialColor={this.DistributionSpecialColor} labels_under={true}/>
           </div>
         );
       } else {
