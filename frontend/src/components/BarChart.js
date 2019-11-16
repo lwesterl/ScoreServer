@@ -4,7 +4,7 @@
   */
 
 import React, { Component } from 'react';
-import { VictoryGroup, VictoryBar } from 'victory';
+import { VictoryGroup, VictoryBar, VictoryLabel } from 'victory';
 
 
 /**
@@ -28,6 +28,7 @@ class BarChart extends Component {
     *   specialxValues: an array of special x values, used to draw datapoints
     *   with different color, see above
     *   width: div width used for the bar chart container, defaults to 100%
+    *   labels_under: pass this prop with any value to place labels under graphs
     *   Note: it's only possible to set all the colors and eventsOn when the component
     *   is created, meanwhile specialxValues can be updated dynamically
     */
@@ -39,6 +40,8 @@ class BarChart extends Component {
     this.standardColor = props.standardColor === undefined ? 'gray' : props.standardColor;
     this.specialColor = props.specialColor === undefined ? 'black' : props.specialColor;
     this.width = props.width === undefined ? '100%' : props.width;
+    this.height = 300; // graph height, used to place labels under the graphs
+    this.labelComponent = props.labels_under === undefined ? <VictoryLabel/> : <VictoryLabel y={this.height -20}/>;
   }
 
   /**
@@ -50,8 +53,8 @@ class BarChart extends Component {
       return (
         <div style={{width : this.width, margin : 'auto'}}>
           <h3>{this.props.title}</h3>
-          <VictoryGroup data={this.props.data}>
-            <VictoryBar labels={this.props.labels}
+          <VictoryGroup data={this.props.data} height={this.height}>
+            <VictoryBar labelComponent={this.labelComponent} labels={this.props.labels}
               style={{
                 data: {
                   fill: ({ x }) =>
@@ -92,8 +95,8 @@ class BarChart extends Component {
       return (
         <div style={{width : this.width, margin : 'auto'}}>
           <h3>{this.props.title}</h3>
-          <VictoryGroup data={this.props.data}>
-            <VictoryBar labels={this.props.labels}
+          <VictoryGroup data={this.props.data} height={this.height}>
+            <VictoryBar labelComponent={this.labelComponent} labels={this.props.labels}
               style={{
                 data: {
                   fill: ({ x }) =>
